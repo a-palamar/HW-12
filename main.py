@@ -177,6 +177,20 @@ class AddressBook(UserDict):
             address_book.add_record(record)
         return address_book
 
+    def open_addr_book(self):
+        file_name = "addr_book.json"
+
+        with open(file_name, "r") as file:
+            json_string = file.read()
+            addr_book = self.from_json(json_string)
+        return addr_book
+
+    def save_addr_book(self):
+        file_name = "addr_book.json"
+
+        with open(file_name, "w") as file:
+            read_file = file.write(self.to_json())
+        return read_file
 
 # The error handling and command dictionary
 
@@ -221,7 +235,7 @@ def unknown():
 
 
 @user_error
-def search(query):
+def search(query, address_book):
     results = []
     query = query.lower()
     for record in address_book.data.values():
